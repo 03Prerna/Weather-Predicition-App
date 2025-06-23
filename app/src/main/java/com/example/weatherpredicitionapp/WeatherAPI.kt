@@ -6,20 +6,19 @@ import retrofit2.http.Query
 
 interface WeatherAPI {
     @GET("weather")
-    suspend fun getWeather(
+    suspend fun getCurrentWeather(
         @Query("q") city: String,
         @Query("appid") apiKey: String,
         @Query("units") units: String = "metric"  // Use "imperial" for Fahrenheit
     ): WeatherResponse
 
-    @GET("data/3.0/onecall")
-    suspend fun getWeeklyForecast(
-        @Query("lat") lat: Double,
-        @Query("lon") lon: Double,
-        @Query("exclude") exclude: String = "minutely,hourly,alerts,current",
+    @GET("forecast")
+    suspend fun getFiveDayForecast(
+        @Query("q") city: String,
         @Query("appid") apiKey: String,
         @Query("units") units: String = "metric"
-    ): ForecastResponse
+    ): FiveDayForecastResponse
+
 
 
     companion object{

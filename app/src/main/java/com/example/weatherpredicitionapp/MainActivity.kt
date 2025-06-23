@@ -3,6 +3,7 @@ package com.example.weatherpredicitionapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -49,13 +50,17 @@ fun WeatherScreen(viewModel: WeatherViewModel = viewModel()) {
     val apiKey = "8c2370e241986f0db70baad9213534f1"
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .paint(
-                painter = painterResource(id = R.drawable.background), // ✅ Make sure this image exists!
-                contentScale = ContentScale.FillBounds
-            )
+        modifier = Modifier.fillMaxSize()
     ) {
+        // ✅ Use Image for background instead of paint()
+        Image(
+            painter = painterResource(id = R.drawable.background),
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier.fillMaxSize()
+        )
+
+        // ✅ LazyColumn placed directly inside Box
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -63,7 +68,7 @@ fun WeatherScreen(viewModel: WeatherViewModel = viewModel()) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                Spacer(modifier = Modifier.height(180.dp))
+                Spacer(modifier = Modifier.height(30.dp))
 
                 OutlinedTextField(
                     value = city,
@@ -93,6 +98,8 @@ fun WeatherScreen(viewModel: WeatherViewModel = viewModel()) {
 
                 Spacer(modifier = Modifier.height(16.dp))
             }
+
+            // ✅ Show weather and forecast if data is available
             weatherData?.let {
                 item {
                     Row(
@@ -112,9 +119,12 @@ fun WeatherScreen(viewModel: WeatherViewModel = viewModel()) {
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
-
+                }
+            }
+            if (forecast.isNotEmpty()) {
+                item {
                     Text(
-                        text = "7-Day Forecast",
+                        text = "5-Day Forecast",
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
                         color = DarkBlueJC,
@@ -122,13 +132,25 @@ fun WeatherScreen(viewModel: WeatherViewModel = viewModel()) {
                     )
                 }
 
+                // ✅ Loop through forecast list
                 items(forecast) { day ->
                     ForecastItem(day)
+                }
+            } else {
+                item {
+                    Text(
+                        text = "No forecast available yet.",
+                        color = Color.Red,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
                 }
             }
         }
     }
 }
+
+
+
 @Composable
 fun WeatherCard(label: String, value: String, icon: ImageVector) {
     Card(
