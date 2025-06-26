@@ -63,7 +63,7 @@ fun WeatherScreen(viewModel: WeatherViewModel = viewModel()) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                Spacer(modifier = Modifier.height(180.dp))
+                Spacer(modifier = Modifier.height(70.dp))
 
                 OutlinedTextField(
                     value = city,
@@ -114,7 +114,7 @@ fun WeatherScreen(viewModel: WeatherViewModel = viewModel()) {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "7-Day Forecast",
+                        text = "5-Day Forecast",
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
                         color = DarkBlueJC,
